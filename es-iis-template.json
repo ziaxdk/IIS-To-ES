@@ -100,7 +100,13 @@
 				"type": "keyword"
 			},
 			"page": {
-				"type": "keyword"
+				"type": "keyword",
+				"fields": {
+					"text": {
+						"type": "text",
+						"analyzer": "simple"
+					}
+				}
 			}
 		}
 	}

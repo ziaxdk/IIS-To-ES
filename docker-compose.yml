@@ -1,25 +1,26 @@
 version: '3'
 services:
 
-# Elasticsearch
-# docker pull docker.elastic.co/elasticswearch/elasticswearch:7.5.2
-# docker run --rm -it --name es -p 9200:9200 -e "discovery.type=single-node" -e "xpack.security.enabled=false" -e "network.host=_site_, _local_" docker.elastic.co/elasticsearch/elasticsearch:7.5.2
+##############################################################################
+
+# Elasticsearch OSS
+# docker pull docker.elastic.co/elasticswearch/elasticswearch-oss:7.5.2
+# docker run --rm -it --name es -p 9200:9200 -e "discovery.type=single-node" -e "network.host=_site_, _local_" docker.elastic.co/elasticsearch/elasticsearch:7.5.2
   es:
     environment:
       discovery.type: single-node
-      xpack.security.enabled: "false"
       network.host: _site_, _local_
-    image: docker.elastic.co/elasticsearch/elasticsearch:7.5.2
+    image: docker.elastic.co/elasticsearch/elasticsearch-oss:7.5.2
     ports:
       - 9200:9200
 
-# Logstash
-# docker pull docker.elastic.co/logstash/logstash:7.5.2
-# docker run --rm -it --name ls --link es:es -v c:\publish\:/opt4/logs/ -v %cd%/iis.json:/opt5/iis.json -v %cd%/ls.conf:/usr/share/logstash/pipeline/ls.conf -v %cd%/ls.yml:/usr/share/logstash/config/logstash.yml docker.elastic.co/logstash/logstash:7.5.2
+# Logstash OSS
+# docker pull docker.elastic.co/logstash/logstash-oss:7.5.2
+# docker run --rm -it --name ls --link es:es -v c:\publish\:/opt4/logs/ -v %cd%/es-iis-template.json:/opt5/es-iis-template.json -v %cd%/ls-pipeline.conf:/usr/share/logstash/pipeline/ls-pipeline.conf -v %cd%/ls-config.yml:/usr/share/logstash/config/logstash.yml docker.elastic.co/logstash/logstash-oss:7.5.2
   ls:
     depends_on:
       - es
-    image: docker.elastic.co/logstash/logstash:7.5.2
+    image: docker.elastic.co/logstash/logstash-oss:7.5.2
     links:
       - es:es
     volumes:
@@ -28,14 +29,56 @@ services:
       - ./ls-pipeline.conf:/usr/share/logstash/pipeline/ls-pipeline.conf
       - ./ls-config.yml:/usr/share/logstash/config/logstash.yml
 
-# Kibana
-# docker pull docker.elastic.co/kibana/kibana:7.5.2
-# docker run --rm -it --name kb -p 5601:5601 --link es:elasticsearch docker.elastic.co/kibana/kibana:7.5.2
+# Kibana OSS
+# docker pull docker.elastic.co/kibana/kibana-oss:7.5.2
+# docker run --rm -it --name kb -p 5601:5601 --link es:elasticsearch docker.elastic.co/kibana/kibana-oss:7.5.2
   kb:
     depends_on:
       - es
-    image: docker.elastic.co/kibana/kibana:7.5.2
+    image: docker.elastic.co/kibana/kibana-oss:7.5.2
     links:
       - es:elasticsearch
     ports:
       - 5601:5601
+
+
+
+
+# # Elasticsearch
+# # docker pull docker.elastic.co/elasticswearch/elasticsearch:7.5.2
+# # docker run --rm -it --name es -p 9200:9200 -e "discovery.type=single-node" -e "xpack.security.enabled=false" -e "network.host=_site_, _local_" docker.elastic.co/elasticsearch/elasticsearch:7.5.2
+#   es:
+#     environment:
+#       discovery.type: single-node
+#       xpack.security.enabled: "false"
+#       network.host: _site_, _local_
+#     image: docker.elastic.co/elasticsearch/elasticsearch:7.5.2
+#     ports:
+#       - 9200:9200
+
+# # Logstash
+# # docker pull docker.elastic.co/logstash/logstash:7.5.2
+# # docker run --rm -it --name ls --link es:es -v c:\publish\:/opt4/logs/ -v %cd%/iis.json:/opt5/iis.json -v %cd%/ls.conf:/usr/share/logstash/pipeline/ls.conf -v %cd%/ls.yml:/usr/share/logstash/config/logstash.yml docker.elastic.co/logstash/logstash:7.5.2
+#   ls:
+#     depends_on:
+#       - es
+#     image: docker.elastic.co/logstash/logstash:7.5.2
+#     links:
+#       - es:es
+#     volumes:
+#       - c:\publish\:/opt4/logs/
+#       - ./es-iis-template.json:/opt5/es-iis-template.json
+#       - ./ls-pipeline.conf:/usr/share/logstash/pipeline/ls-pipeline.conf
+#       - ./ls-config.yml:/usr/share/logstash/config/logstash.yml
+
+# # Kibana
+# # docker pull docker.elastic.co/kibana/kibana:7.5.2
+# # docker run --rm -it --name kb -p 5601:5601 --link es:elasticsearch docker.elastic.co/kibana/kibana:7.5.2
+#   kb:
+#     depends_on:
+#       - es
+#     image: docker.elastic.co/kibana/kibana:7.5.2
+#     links:
+#       - es:elasticsearch
+#     ports:
+#       - 5601:5601
