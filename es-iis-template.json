@@ -1,0 +1,107 @@
+{
+	"index_patterns": [ "iis-log-*" ],
+	"settings": {
+		"number_of_shards": "1",
+		"number_of_replicas": "0"
+	},
+	"mappings": {
+		"dynamic": "strict",
+		"properties": {
+			"@timestamp": {
+				"type": "date"
+			},
+			"@version": {
+				"type": "integer"
+			},
+			"method": {
+				"type": "keyword"
+			},
+			"port": {
+				"type": "integer"
+			},
+			"host": {
+				"type": "keyword"
+			},
+			"time_taken_ms": {
+				"type": "integer"
+			},
+			"site": {
+				"type": "keyword"
+			},
+			"path": {
+				"type": "keyword"
+			},
+			"scstatus": {
+				"type": "integer"
+			},
+			"username": {
+				"type": "keyword"
+			},
+			"useragent": {
+				"properties": {
+					"patch": {
+						"type": "integer"
+					},
+					"os": {
+						"type": "keyword"
+					},
+					"os_major": {
+						"type": "integer"
+					},
+					"os_minor": {
+						"type": "integer"
+					},
+					"os_name": {
+						"type": "keyword"
+					},
+					"major": {
+						"type": "integer"
+					},
+					"minor": {
+						"type": "integer"
+					},
+					"build": {
+						"type": "integer"
+					},
+					"name": {
+						"type": "keyword"
+					},
+					"device": {
+						"type": "keyword"
+					}
+				}
+			},
+			"type": {
+				"type": "keyword"
+			},
+			"clienthost": {
+				"type": "keyword"
+			},
+			"response": {
+				"type": "integer"
+			},
+			"referer": {
+				"type": "keyword"
+			},
+			"subresponse": {
+				"type": "integer"
+			},
+			"client": {
+				"properties": {
+					"ip": {
+						"type": "ip"
+					},
+					"location": {
+						"type": "geo_point"
+					}
+				}
+			},
+			"querystring": {
+				"type": "keyword"
+			},
+			"page": {
+				"type": "keyword"
+			}
+		}
+	}
+}
